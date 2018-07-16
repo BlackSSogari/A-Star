@@ -14,10 +14,10 @@ public class GenerateRandomMap : MonoBehaviour {
     {
         GenerateMap();
         Node startNode = SetStartPoint();
-        SetEndPoint();
-        if (startNode != null)
+        Node endNode = SetEndPoint();
+        if (startNode != null && endNode != null)
         {
-            SetAgent(startNode);
+            SetAgent(startNode, endNode);
         }
     }
 
@@ -32,8 +32,7 @@ public class GenerateRandomMap : MonoBehaviour {
                 {
                     if (node.TileType == NodeType.None)
                     {
-                        node.TileType = NodeType.Start;
-                        node.SetTileColor();
+                        node.TileType = NodeType.Start;                        
                         return node;
                     }
                 }
@@ -43,7 +42,7 @@ public class GenerateRandomMap : MonoBehaviour {
         return null;
     }
 
-    private void SetEndPoint()
+    private Node SetEndPoint()
     {
         for (int x = (int)mapSize.x - 1; x >= 0; x--)
         {
@@ -54,21 +53,37 @@ public class GenerateRandomMap : MonoBehaviour {
                 {
                     if (node.TileType == NodeType.None)
                     {
-                        node.TileType = NodeType.End;
-                        node.SetTileColor();
-                        return;
+                        node.TileType = NodeType.End;                        
+                        return node;
                     }
                 }
             }
         }
+
+        return null;
     }
 
-    private void SetAgent(Node s)
+    private void SetAgent(Node s, Node e)
     {
         GameObject obj = (GameObject)Resources.Load("space_man_player");
         if (obj != null)
         {
-            obj.transform.localPosition = CoordToPosition(s.X, s.Y);
+            GameObject agent = GameObject.Instantiate(obj);
+            if (agent != null)
+            {
+                agent.transform.localPosition = CoordToPosition(s.X, s.Y);
+
+                A_Star a_Star = agent.GetComponent<A_Star>();
+                if (a_Star != null)
+                {
+                    a_Star.StartNode = s;
+                    a_Star.EndNode = e;
+                    a_Star.MapInfoList = AllNodeList;
+                    a_Star.MapW = (int)mapSize.x;
+                    a_Star.MapH = (int)mapSize.y;
+                }
+            }
+            
         }
     }
 
@@ -137,7 +152,7 @@ public class GenerateRandomMap : MonoBehaviour {
                 newTile.transform.localPosition = tilePosition;
                 newTile.transform.localScale = Vector3.one * (1 - outlinePercent);
                 newTile.transform.parent = mapHolder;
-                Node newNode = newTile.AddComponent<Node>();
+                Node newNode = newTile.GetComponent<Node>();
                 newNode.X = x;
                 newNode.Y = y;
                 newNode.TileType = NodeType.None;
@@ -172,8 +187,7 @@ public class GenerateRandomMap : MonoBehaviour {
                 newObstacle.transform.localPosition = obstaclePosition;
                 newObstacle.transform.parent = mapHolder;
 
-                AllNodeList[((int)mapSize.x * randomCoord.x) + randomCoord.y].TileType = NodeType.Obstacle;
-                AllNodeList[((int)mapSize.x * randomCoord.x) + randomCoord.y].SetTileColor();
+                AllNodeList[((int)mapSize.x * randomCoord.x) + randomCoord.y].TileType = NodeType.Obstacle;                
             }
             else
             {

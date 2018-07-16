@@ -272,6 +272,7 @@ GameObject:
   - component: {fileID: 4408315835009442}
   - component: {fileID: 95707633440798194}
   - component: {fileID: 111276210834745386}
+  - component: {fileID: 114297331317499788}
   m_Layer: 0
   m_Name: space_man_player
   m_TagString: Untagged
@@ -878,7 +879,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1432434687901092}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -4.5, y: -3.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4985483490593064}
@@ -1529,6 +1530,17 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114297331317499788
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1432434687901092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ac012944b009224a8ae15ff08ae1bda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!137 &137050293566643654
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
